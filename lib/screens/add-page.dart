@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class AddPage extends StatefulWidget {
   @override
@@ -29,38 +30,44 @@ class _AddPageState extends State<AddPage> {
           new SizedBox(
             height: 15,
           ),
-          new ListTile(
-            leading: Icon(Icons.near_me),
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: 'Item',
-              ),
-            ),
-          ),
-          new ListTile(
-            leading: Icon(Icons.confirmation_number),
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: 'Quantidade',
-              ),
+          new Card(
+            elevation: 8,
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.near_me, color: Colors.black87),
+                  title: new TextField(
+                    decoration: new InputDecoration(
+                      hintText: 'Item',
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading:
+                      Icon(Icons.confirmation_number, color: Colors.black87),
+                  title: new TextField(
+                    decoration: new InputDecoration(
+                      hintText: 'Quantidade',
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           new SizedBox(
             height: 15,
           ),
-          new CheckboxListTile(
-            value: _isChecked,
-            title: new Text('Hello World'),
-            controlAffinity: ListTileControlAffinity.leading,
-            subtitle: new Text('Subtitle'),
-            secondary: new Icon(Icons.archive),
-            activeColor: Colors.red,
-            onChanged: (val) {
-              setState(() {
-                _isChecked = val;
-              });
-            },
-          ),
+          
         ],
       ),
     );
