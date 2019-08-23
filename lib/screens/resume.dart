@@ -2,7 +2,6 @@ import 'package:estoque/util/chart/chart-bar.dart';
 import 'package:estoque/util/chart/chart-bat-2.dart';
 import 'package:estoque/util/chart/chart-pie.dart';
 import 'package:estoque/util/chart/charts-line.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
