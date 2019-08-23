@@ -41,23 +41,44 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Controle de Estoque',style: TextStyle(color: Colors.black),),
+        title: Text(
+          'Controle de Estoque',
+        ),
         centerTitle: true,
-        backgroundColor: Colors.white,
       ),
-      bottomNavigationBar: new BottomNavigationBar(
-        fixedColor: Colors.black,
-        unselectedIconTheme: IconThemeData(color: Colors.black,size: 30),
-        selectedIconTheme: IconThemeData(color: Colors.grey,size: 45),
-          currentIndex: currentIndex,
-          onTap: (index) => setState(() {
-                currentIndex = index;
-              }),
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home),title: Text('Inicio')),
-            BottomNavigationBarItem(icon: Icon(Icons.add_box),title: Text('Adicionar')),
-            BottomNavigationBarItem(icon: Icon(Icons.view_list),title: Text('Resumo'))
-          ]),
+      bottomNavigationBar: new Theme(
+        data: ThemeData.dark(),
+        child: BottomNavigationBar(
+            elevation: 15,
+            fixedColor: Colors.black,
+            unselectedIconTheme: IconThemeData(color: Colors.black, size: 30),
+            selectedIconTheme: IconThemeData(color: Colors.grey, size: 45),
+            showUnselectedLabels: false,
+            currentIndex: currentIndex,
+            onTap: (index) => setState(() {
+                  currentIndex = index;
+                }),
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text(
+                    'Inicio',
+                    style: TextStyle(color: Colors.grey),
+                  )),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.add_box),
+                  title: Text(
+                    'Adicionar',
+                    style: TextStyle(color: Colors.grey),
+                  )),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.view_list),
+                  title: Text(
+                    'Resumo',
+                    style: TextStyle(color: Colors.grey),
+                  ))
+            ]),
+      ),
       body: _getWidget(),
     );
   }

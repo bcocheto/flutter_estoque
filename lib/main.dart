@@ -14,6 +14,9 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.dark
+      ),
       debugShowCheckedModeBanner: false,
       title: 'Controle de Estoque',
       home: BottomNavBar(),
