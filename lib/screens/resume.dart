@@ -1,7 +1,7 @@
 import 'package:estoque/util/chart/chart-bar.dart';
-import 'package:estoque/util/chart/chart-bat-2.dart';
+import 'package:estoque/util/chart/chart-donut.dart';
+import 'package:estoque/util/chart/chart-line.dart';
 import 'package:estoque/util/chart/chart-pie.dart';
-import 'package:estoque/util/chart/charts-line.dart';
 import 'package:flutter/material.dart';
 
 class ResumePage extends StatefulWidget {
@@ -15,7 +15,7 @@ class _ResumePageState extends State<ResumePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(25),
+        padding: EdgeInsets.all(10),
         child: GridView(
           gridDelegate:
               SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
@@ -24,31 +24,28 @@ class _ResumePageState extends State<ResumePage> {
               body: new Card(
                 elevation: 15,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 4, right: 4),
-                  child: PieChartSample2()
-                ),
+                    padding: EdgeInsets.only(left: 4, right: 4),
+                    child: PieChart.withSampleData()),
               ),
             ),
             Scaffold(
               body: new Card(
                 elevation: 15,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 4, right: 5),
-                  child: LineChartSample4()
-                ),
+                    padding: EdgeInsets.only(left: 4, right: 5),
+                    child: DonutChart.withSampleData()),
               ),
             ),
             Scaffold(
               body: new Card(
                 elevation: 15,
-                child: BarChartSample2()
-                
+                child: BarChart1.withSampleData(),
               ),
             ),
             Scaffold(
               body: new Card(
                 elevation: 15,
-                child: BarChartSample1()
+                child: LineChart.withSampleData(),
               ),
             ),
           ],

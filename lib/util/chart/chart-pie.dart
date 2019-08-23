@@ -1,179 +1,87 @@
-import 'dart:async';
+import 'dart:math';
 
-import 'package:fl_chart/fl_chart.dart';
+/// Gauge chart example, where the data does not cover a full revolution in the
+/// chart.
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
-import 'package:estoque/util/indicator.dart';
+class PieChart extends StatelessWidget {
+  final List<charts.Series> seriesList;
+  final bool animate;
 
-class PieChartSample2 extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => PieChart2State();
-}
+  PieChart(this.seriesList, {this.animate});
 
-class PieChart2State extends State {
-  List<PieChartSectionData> pieChartRawSections;
-  List<PieChartSectionData> showingSections;
-
-  StreamController<PieTouchResponse> pieTouchedResultStreamController;
-
-  int touchedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final section1 = PieChartSectionData(
-      color: Color(0xff0293ee),
-      value: 40,
-      title: "40%",
-      radius: 50,
-      titleStyle: TextStyle(
-          fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
+  /// Creates a [PieChart] with sample data and no transition.
+  factory PieChart.withSampleData() {
+    return new PieChart(
+      _createSampleData(),
+      // Disable animations for image tests.
+      animate: true,
     );
-
-    final section2 = PieChartSectionData(
-      color: Color(0xfff8b250),
-      value: 30,
-      title: "30%",
-      radius: 50,
-      titleStyle: TextStyle(
-          fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
-    );
-
-    final section3 = PieChartSectionData(
-      color: Color(0xff845bef),
-      value: 15,
-      title: "15%",
-      radius: 50,
-      titleStyle: TextStyle(
-          fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
-    );
-
-    final section4 = PieChartSectionData(
-      color: Color(0xff13d38e),
-      value: 15,
-      title: "15%",
-      radius: 50,
-      titleStyle: TextStyle(
-          fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
-    );
-
-    final items = [
-      section1,
-      section2,
-      section3,
-      section4,
-    ];
-
-    pieChartRawSections = items;
-
-    showingSections = pieChartRawSections;
-
-    pieTouchedResultStreamController = StreamController();
-    pieTouchedResultStreamController.stream.distinct().listen((details) {
-      if (details == null) {
-        return;
-      }
-
-      touchedIndex = -1;
-      if (details.sectionData != null) {
-        touchedIndex = showingSections.indexOf(details.sectionData);
-      }
-
-      setState(() {
-        if (details.touchInput is FlLongPressEnd) {
-          touchedIndex = -1;
-          showingSections = List.of(pieChartRawSections);
-        } else {
-          showingSections = List.of(pieChartRawSections);
-
-          if (touchedIndex != -1) {
-            final TextStyle style = showingSections[touchedIndex].titleStyle;
-            showingSections[touchedIndex] =
-                showingSections[touchedIndex].copyWith(
-              titleStyle: style.copyWith(
-                fontSize: 24,
-              ),
-              radius: 60,
-            );
-          }
-        }
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 0.9739,
-      child: Card(
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: FlChart(
-                  chart: PieChart(
-                    PieChartData(
-                        pieTouchData: PieTouchData(
-                            touchResponseStreamSink:
-                                pieTouchedResultStreamController.sink),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                        sectionsSpace: 0,
-                        centerSpaceRadius: 40,
-                        sections: showingSections),
-                  ),
-                ),
-              ),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                
-                Indicator(
-                  color: Color(0xff0293ee),
-                  text: "First",
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xfff8b250),
-                  text: "Second",
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xff845bef),
-                  text: "Third",
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xff13d38e),
-                  text: "Fourth",
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 18,
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 28,
-            ),
-          ],
+    return new charts.PieChart(
+      seriesList,
+      animate: animate,
+      // Configure the width of the pie slices to 30px. The remaining space in
+      // the chart will be left as a hole in the center. Adjust the start
+      // angle and the arc length of the pie so it resembles a gauge.
+      defaultRenderer: new charts.ArcRendererConfig(
+          arcWidth: 30, startAngle: 4 / 5 * pi, arcLength: 7 / 5 * pi),
+      behaviors: [
+        new charts.DatumLegend(
+          // Positions for "start" and "end" will be left and right respectively
+          // for widgets with a build context that has directionality ltr.
+          // For rtl, "start" and "end" will be right and left respectively.
+          // Since this example has directionality of ltr, the legend is
+          // positioned on the right side of the chart.
+          position: charts.BehaviorPosition.end,
+          // By default, if the position of the chart is on the left or right of
+          // the chart, [horizontalFirst] is set to false. This means that the
+          // legend entries will grow as new rows first instead of a new column.
+          horizontalFirst: false,
+          // This defines the padding around each legend entry.
+          cellPadding: new EdgeInsets.only(right: 4.0, bottom: 4.0),
+          // Set [showMeasures] to true to display measures in series legend.
+          showMeasures: true,
+          // Configure the measure value to be shown by default in the legend.
+          legendDefaultMeasure: charts.LegendDefaultMeasure.firstValue,
+          // Optionally provide a measure formatter to format the measure value.
+          // If none is specified the value is formatted as a decimal.
+          measureFormatter: (num value) {
+            return value == null ? '-' : '${value}k';
+          },
         ),
-      ),
+      ],
     );
   }
+
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<GaugeSegment, String>> _createSampleData() {
+    final data = [
+      new GaugeSegment('Low', 75),
+      new GaugeSegment('Acceptable', 100),
+      new GaugeSegment('High', 50),
+      new GaugeSegment('Highly Unusual', 5),
+    ];
+
+    return [
+      new charts.Series<GaugeSegment, String>(
+        id: 'Segments',
+        domainFn: (GaugeSegment segment, _) => segment.segment,
+        measureFn: (GaugeSegment segment, _) => segment.size,
+        data: data,
+      )
+    ];
+  }
+}
+
+/// Sample data type.
+class GaugeSegment {
+  final String segment;
+  final int size;
+
+  GaugeSegment(this.segment, this.size);
 }

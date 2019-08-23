@@ -47,12 +47,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
         centerTitle: true,
       ),
       bottomNavigationBar: new Theme(
-        data: ThemeData.dark(),
+        data: ThemeData.light(),
         child: BottomNavigationBar(
             elevation: 15,
             fixedColor: Colors.black,
-            unselectedIconTheme: IconThemeData(color: Colors.black, size: 30),
-            selectedIconTheme: IconThemeData(color: Colors.grey, size: 45),
+            unselectedIconTheme: IconThemeData(color: Colors.grey, size: 30),
+            selectedIconTheme: IconThemeData(color: Colors.black, size: 45),
             showUnselectedLabels: false,
             currentIndex: currentIndex,
             onTap: (index) => setState(() {
