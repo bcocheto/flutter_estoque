@@ -4,13 +4,13 @@ import 'package:estoque/util/chart/chart-pie.dart';
 import 'package:estoque/util/chart/charts-line.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key key}) : super(key: key);
+class ResumePage extends StatefulWidget {
+  const ResumePage({Key key}) : super(key: key);
   @override
-  _HomeState createState() => _HomeState();
+  _ResumePageState createState() => _ResumePageState();
 }
 
-class _HomeState extends State<Home> {
+class _ResumePageState extends State<ResumePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,4 +1,5 @@
 import 'package:estoque/screens/add-page.dart';
+import 'package:estoque/screens/resume.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 
@@ -15,7 +16,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     switch (currentIndex) {
       case 0:
         return Container(
-          child: Home(),
+          child: HomePage(),
         );
         break;
       case 1:
@@ -24,7 +25,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
         );
         break;
       case 2:
-        return Container();
+        return Container(
+          child: ResumePage(),
+        );
         break;
       default:
         return Container(
